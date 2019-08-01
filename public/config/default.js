@@ -1,8 +1,6 @@
 window.config = {
   // default: '/'
   routerBasename: '/',
-  // default: ''
-  relativeWebWorkerScriptsPath: '',
   showStudyList: true,
   servers: {
     dicomWeb: [
@@ -54,8 +52,8 @@ window.config = {
     { commandName: 'fitViewportToWindow', label: 'Zoom to Fit', keys: ['='] },
     { commandName: 'resetViewport', label: 'Reset', keys: ['space'] },
     // clearAnnotations
-    // nextImage
-    // previousImage
+    { commandName: 'nextImage', label: 'Next Image', keys: ['down'] },
+    { commandName: 'previousImage', label: 'Previous Image', keys: ['up'] },
     // firstImage
     // lastImage
     {

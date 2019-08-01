@@ -27,6 +27,11 @@ class StudyListWithData extends Component {
     server: PropTypes.object,
     user: PropTypes.object,
     history: PropTypes.object,
+    studyListFunctionsEnabled: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    studyListFunctionsEnabled: true,
   };
 
   static rowsPerPage = 25;
@@ -86,6 +91,10 @@ class StudyListWithData extends Component {
       limit: searchData.rowsPerPage,
       offset: searchData.currentPage * searchData.rowsPerPage,
     };
+
+    if (server.supportsFuzzyMatching) {
+      filter.fuzzymatching = true;
+    }
 
     // TODO: add sorting
     const promise = OHIF.studies.searchStudies(server, filter);
@@ -147,7 +156,7 @@ class StudyListWithData extends Component {
   };
 
   onImport = () => {
-    //console.log('onImport');
+    this.openModal('DicomFilesUploader');
   };
 
   openModal = modalComponentId => {
@@ -176,9 +185,6 @@ class StudyListWithData extends Component {
 
   render() {
     const onDrop = async acceptedFiles => {
-      // Do something with the files
-      console.warn(acceptedFiles);
-
       try {
         const studies = await filesToStudies(acceptedFiles);
 
@@ -200,16 +206,10 @@ class StudyListWithData extends Component {
     // TODO: This should probably be a prop
     if (window.config.enableGoogleCloudAdapter) {
       healthCareApiWindows = (
-        <>
-          <ConnectedDicomStorePicker
-            isOpen={this.state.modalComponentId === 'DicomStorePicker'}
-            onClose={this.closeModals}
-          />
-          <ConnectedDicomFilesUploader
-            isOpen={this.state.modalComponentId === 'DicomFilesUploader'}
-            onClose={this.closeModals}
-          />
-        </>
+        <ConnectedDicomStorePicker
+          isOpen={this.state.modalComponentId === 'DicomStorePicker'}
+          onClose={this.closeModals}
+        />
       );
 
       healthCareApiButtons = (
@@ -223,24 +223,16 @@ class StudyListWithData extends Component {
           >
             {this.props.t('Change DICOM Store')}
           </button>
-          <button
-            className="btn btn-primary"
-            onClick={() => this.openModal('DicomFilesUploader')}
-          >
-            {this.props.t('Upload Studies')}
-          </button>
         </div>
       );
     }
-
-    console.warn(this.state.studies);
 
     const studyList = (
       <div className="paginationArea">
         {this.state.studies ? (
           <StudyList
             studies={this.state.studies}
-            studyListFunctionsEnabled={false}
+            studyListFunctionsEnabled={this.props.studyListFunctionsEnabled}
             onImport={this.onImport}
             onSelectItem={this.onSelectItem}
             pageSize={this.rowsPerPage}
@@ -250,6 +242,12 @@ class StudyListWithData extends Component {
             }
             onSearch={this.onSearch}
           >
+            {this.props.studyListFunctionsEnabled ? (
+              <ConnectedDicomFilesUploader
+                isOpen={this.state.modalComponentId === 'DicomFilesUploader'}
+                onClose={this.closeModals}
+              />
+            ) : null}
             {healthCareApiButtons}
             {healthCareApiWindows}
           </StudyList>
@@ -277,12 +275,15 @@ class StudyListWithData extends Component {
         <WhiteLabellingContext.Consumer>
           {whiteLabelling => (
             <UserManagerContext.Consumer>
-              { userManager => (
-                <ConnectedHeader home={true} user={this.props.user} userManager={userManager}>
+              {userManager => (
+                <ConnectedHeader
+                  home={true}
+                  user={this.props.user}
+                  userManager={userManager}
+                >
                   {whiteLabelling.logoComponent}
                 </ConnectedHeader>
-              )
-              }
+              )}
             </UserManagerContext.Consumer>
           )}
         </WhiteLabellingContext.Consumer>

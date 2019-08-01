@@ -3,7 +3,6 @@ window.config = {
   routerBasename: '/',
   // default: ''
   showStudyList: true,
-  relativeWebWorkerScriptsPath: '',
   servers: {
     dicomWeb: [
       {
@@ -21,4 +20,5 @@ window.config = {
       },
     ],
   },
+  studyListFunctionsEnabled: true,
 }
