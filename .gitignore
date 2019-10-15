@@ -5,7 +5,7 @@ node_modules
 build
 dist
 docs/_book
-src/version.js
+#src/version.js
 junit.xml
 coverage/
 
@@ -31,3 +31,5 @@ cypress/videos/
 
 # Locize settings
 .locize
+.vscode
+yarn.lock
