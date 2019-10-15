@@ -86,6 +86,7 @@
     "@ohif/extension-vtk": "0.1.6",
     "@ohif/i18n": "0.2.5",
     "@tanem/react-nprogress": "^1.1.25",
+    "axios": "^0.19.0",
     "classnames": "^2.2.6",
     "cornerstone-core": "^2.2.8",
     "cornerstone-math": "^0.1.8",

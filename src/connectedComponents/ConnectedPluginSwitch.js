@@ -80,8 +80,9 @@ const mergeProps = (propsFromState, propsFromDispatch, ownProps) => {
         commandsManager.runCommand('coronal');
       },
     },*/
+   
     {
-      label: '2D MPR',
+      label: '3-View',
       icon: 'cube',
       onClick: () => {
         commandsManager.runCommand('mpr2d');

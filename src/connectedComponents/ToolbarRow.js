@@ -5,15 +5,19 @@ import {
   ExpandableToolMenu,
   RoundedButtonGroup,
   ToolbarButton,
+  TableList,
+  TableListItem,
 } from 'react-viewerbase';
 import { commandsManager, extensionManager } from './../App.js';
 
 import ConnectedCineDialog from './ConnectedCineDialog';
+// import ConnectedColormap from './ConnectedColormap';
 import ConnectedLayoutButton from './ConnectedLayoutButton';
 import ConnectedPluginSwitch from './ConnectedPluginSwitch.js';
 import { MODULE_TYPES } from 'ohif-core';
-import PropTypes from 'prop-types';
+import PropTypes, { element } from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import cornerstone from 'cornerstone-core';
 
 class ToolbarRow extends Component {
   // TODO: Simplify these? isOpen can be computed if we say "any" value for selected,
@@ -30,6 +34,8 @@ class ToolbarRow extends Component {
   constructor(props) {
     super(props);
 
+    this.canvas = React.createRef();
+
     const toolbarButtonDefinitions = _getVisibleToolbarButtons.call(this);
     // TODO:
     // If it's a tool that can be active... Mark it as active?
@@ -43,6 +49,7 @@ class ToolbarRow extends Component {
       toolbarButtons: toolbarButtonDefinitions,
       activeButtons: [],
       isCineDialogOpen: false,
+      isColormapOpen: false,
     };
 
     this._handleBuiltIn = _handleBuiltIn.bind(this);
@@ -85,6 +92,31 @@ class ToolbarRow extends Component {
     });
   }
 
+  componentDidMount() {
+    const ctx = this.canvas.current.getContext('2d')
+    let colormap = cornerstone.colors.getColormap('winter');
+    const lookupTable = colormap.createLookupTable();
+    const height =this.canvas.current.height;
+    const width = this.canvas.current.width;
+    const colorbar = ctx.createImageData(64,20);
+
+    lookupTable.setTableRange(0, width);
+
+    for(let col = 0; col < width; col++) {
+      const color = lookupTable.mapValue(col);
+      // console.log(color);
+      for(let row = 0; row < height; row++) {
+          const pixel = (col + row * width) * 4;
+          colorbar.data[pixel] = color[0];
+          colorbar.data[pixel+1] = color[1];
+          colorbar.data[pixel+2] = color[2];
+          colorbar.data[pixel+3] = color[3];
+      }
+    }
+    ctx.putImageData(colorbar, 0, 0);
+    console.log(ctx)
+  }
+
   componentDidUpdate(prevProps) {
     const activeContextsChanged =
       prevProps.activeContexts !== this.props.activeContexts;
@@ -95,6 +127,7 @@ class ToolbarRow extends Component {
       });
     }
   }
+
 
   render() {
     const buttonComponents = _getButtonComponents.call(
@@ -110,11 +143,48 @@ class ToolbarRow extends Component {
       zIndex: 999,
     };
 
+    const colormapContainerStyle = {
+      display: this.state.isColormapOpen ? 'list-item' : 'none',
+      position: "absolute",
+      top: "120px",
+      zIndex: 999,
+      opacity: 0.7,
+      left: '690px',
+    }
+
     const onPress = (side, value) => {
       this.props.handleSidePanelChange(side, value);
     };
     const onPressLeft = onPress.bind(this, 'left');
     const onPressRight = onPress.bind(this, 'right');
+
+    const colormapList = cornerstone.colors.getColormapsList();
+    const  listItems = [
+      { label: colormapList[1].id },
+      { label: colormapList[2].id },
+      { label: colormapList[3].id },
+      { label: colormapList[4].id },
+      { label: colormapList[5].id },
+      { label: colormapList[6].id },
+      { label: colormapList[7].id },
+      { label: colormapList[8].id },
+      { label: colormapList[9].id },
+      { label: colormapList[10].id },
+      { label: colormapList[11].id },
+      { label: colormapList[12].id },
+      { label: colormapList[13].id },
+      { label: colormapList[14].id },
+      { label: colormapList[15].id },
+      { label: colormapList[16].id },
+      { label: colormapList[17].id },
+      { label: colormapList[18].id },
+    ];
+
+    // const enabledElement = _getActiveViewportEnabledElement(
+    //   this.state.viewports.viewportSpecificData,
+    //   this.state.viewports.activeViewportIndex
+    // );
+
 
     return (
       <>
@@ -128,7 +198,6 @@ class ToolbarRow extends Component {
           </div>
           {buttonComponents}
           <ConnectedLayoutButton />
-          <ConnectedPluginSwitch />
           <div
             className="pull-right m-t-1 rm-x-1"
             style={{ marginLeft: 'auto' }}
@@ -145,10 +214,78 @@ class ToolbarRow extends Component {
         <div className="CineDialogContainer" style={cineDialogContainerStyle}>
           <ConnectedCineDialog />
         </div>
+        {/* className="btn-group" */}
+        <div style={colormapContainerStyle} >
+
+          {/* <ConnectedColormap /> */}
+          <TableList>
+            {listItems.map((item, index) => {
+              return (
+                <TableListItem
+                  key={`item_${index}`}
+                  // itemClass={this.selectedIndex === index ? 'selected' : ''}
+                  itemIndex={index}
+                  onItemClick={() => {
+                    let enabledElement = this.props.viewports.viewportSpecificData[0].dom;
+                    let viewport = cornerstone.getViewport(enabledElement);
+                    viewport.colormap = listItems[index].label;
+                    cornerstone.setViewport(enabledElement, viewport);
+                    this.setState({
+                      isColormapOpen: false,
+                    });
+
+                  }}
+                >
+                  {/* 注意JSX的语法，不能用双引号，要用大括号括起来，下面写法错误 */}
+                  {/* <canvas id="colorbar" width="64" height="20"></canvas> */}
+                  <canvas
+                    ref={this.canvas}
+                    width={64}
+                    height={20}
+                  >
+                  </canvas>
+
+                  <label>{item.label}</label>
+
+                </TableListItem>
+              )
+            })}
+          </TableList>
+
+        </div>
+
+        {/* <div onClick={commandsManager.runCommand('mpr2d')}>
+
+        </div> */}
       </>
     );
   }
 }
+
+
+// function drawColorbar(canvas, colormapId) {
+//   let colormap = cornerstone.colors.getColormap(colormapId);
+//   const lookupTable = colormap.createLookupTable();
+//   const ctx = canvas.getContext('2d');
+//   const height = canvas.height;
+//   const width = canvas.width;
+//   const colorbar = ctx.createImageData(64,20);
+
+//   lookupTable.setTableRange(0, width);
+
+//   for(let col = 0; col < width; col++) {
+//     const color = lookupTable.mapValue(col);
+//     // console.log(color);
+//     for(let row = 0; row < height; row++) {
+//         const pixel = (col + row * width) * 4;
+//         colorbar.data[pixel] = color[0];
+//         colorbar.data[pixel+1] = color[1];
+//         colorbar.data[pixel+2] = color[2];
+//         colorbar.data[pixel+3] = color[3];
+//     }
+//   }
+//   ctx.putImageData(colorbar, 0, 0);
+// }
 
 /**
  * Determine which extension buttons should be showing, if they're
@@ -217,7 +354,6 @@ function _handleToolbarButtonClick(button, evt, props) {
     this._handleBuiltIn(button.options);
   }
 }
-
 /**
  *
  */
@@ -243,6 +379,12 @@ function _handleBuiltIn({ behavior } = {}) {
   if (behavior === 'CINE') {
     this.setState({
       isCineDialogOpen: !this.state.isCineDialogOpen,
+    });
+  }
+
+  if (behavior === 'Colormap') {
+    this.setState({
+      isColormapOpen: !this.state.isColormapOpen,
     });
   }
 }

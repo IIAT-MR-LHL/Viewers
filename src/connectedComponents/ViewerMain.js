@@ -5,6 +5,7 @@ import ConnectedLayoutManager from './ConnectedLayoutManager.js';
 import ConnectedToolContextMenu from './ConnectedToolContextMenu.js';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { commandsManager } from './../App.js';
 
 class ViewerMain extends Component {
   static propTypes = {
@@ -75,6 +76,7 @@ class ViewerMain extends Component {
       this.setState({
         displaySets,
       });
+      // commandsManager.runCommand('mpr2d');
     }
   }
 
@@ -120,7 +122,7 @@ class ViewerMain extends Component {
     }
 
     this.cachedViewportData = viewportData;
-
+    console.log(this);
     return viewportData;
   };
 

@@ -16,7 +16,6 @@ const applicationProps = Object.assign({}, applicationDefaults, window.config);
 const app = React.createElement(App, applicationProps, null);
 
 ReactDOM.render(app, document.getElementById('root'));
-
 /*
 Example config with OIDC
 */

@@ -15,6 +15,7 @@ import SidePanel from './../components/SidePanel.js';
 import { extensionManager } from './../App.js';
 import UserManagerContext from '../UserManagerContext';
 import './Viewer.css';
+import { commandsManager } from './../App.js';
 /**
  * Inits OHIF Hanging Protocol's onReady.
  * It waits for OHIF Hanging Protocol to be ready to instantiate the ProtocolEngine
@@ -195,6 +196,7 @@ class Viewer extends Component {
         thumbnails: _mapStudiesToThumbnails(studies),
       });
     }
+    // commandsManager.runCommand('mpr2d');
   }
 
   componentDidUpdate(prevProps) {
@@ -205,11 +207,11 @@ class Viewer extends Component {
 
       this.timepointApi.retrieveTimepoints({ patientId });
       this.measurementApi.retrieveMeasurements(patientId, [currentTimepointId]);
-
       this.setState({
         thumbnails: _mapStudiesToThumbnails(studies),
       });
     }
+    // commandsManager.runCommand('mpr2d');
   }
 
   render() {
@@ -225,7 +227,6 @@ class Viewer extends Component {
         }
       });
     });
-
     return (
       <>
         {/* HEADER */}
@@ -375,4 +376,6 @@ const _mapStudiesToThumbnails = function(studies) {
       thumbnails,
     };
   });
+  // commandsManager.runCommand('mpr2d');
 };
+

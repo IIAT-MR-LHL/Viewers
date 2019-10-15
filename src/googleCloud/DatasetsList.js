@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import './googleCloud.css';
 import { withTranslation } from 'react-i18next';
 import { Icon } from 'react-viewerbase';
+// the follow two lines to test
+// import PluginSwitch from './PluginSwitch.js';
+// import { commandsManager } from './../App.js';
 
 class DatasetsList extends Component {
   state = {
@@ -33,7 +36,10 @@ class DatasetsList extends Component {
           this.onHighlightItem(dataset.name);
         }}
         onClick={() => {
+          // console.log("8888888")
           this.props.onSelect(dataset);
+          //test if it is default display
+          // commandsManager.runCommand('mpr2d');
         }}
       >
         <td>{dataset.name.split('/')[5]}</td>

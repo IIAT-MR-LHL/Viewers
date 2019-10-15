@@ -1,5 +1,6 @@
+﻿import './Header.css';
 import './Header.css';
-import './Header.css';
+import axios from 'axios';
 
 import { Link, withRouter } from 'react-router-dom';
 import React, { Component } from 'react';
@@ -73,6 +74,30 @@ class Header extends Component {
     this.hotKeysData = hotkeysManager.hotkeyDefinitions;
   }
 
+  fileInput(){
+      document.getElementById("file").click();
+  }
+
+  handleUpload = (e) =>{
+    e.preventDefault();
+    let file = e.target.files;
+    const formData = new FormData();
+    for (let i = 0; i < file.length; i++) {
+      formData.append('submission', file[i]);
+    }
+    //axios post function
+    let url;
+    axios({
+      method: 'POST',
+      url: "http://10.10.20.98:5000/api/images/upload/files",
+      data: formData,
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    }).then(resp => {
+      console.log(resp.data);
+    }).catch(err => console.log(err));
+  };
   onUserPreferencesSave({ windowLevelData, hotKeysData }) {
     // console.log(windowLevelData);
     // console.log(hotKeysData);
@@ -114,7 +139,11 @@ class Header extends Component {
         </div>
 
         <div className="header-menu">
-          <span className="research-use">{t('INVESTIGATIONAL USE ONLY')}</span>
+        <div className="a_upload" id="fileInput" onClick={this.fileInput}>
+            {'Upload Study Files to DataBase'}
+            <input className="uploadFile" type="file" multiple="multiple" id="file" onChange={this.handleUpload}/>
+          </div>
+          {/* <span className="research-use">{t('INVESTIGATIONAL USE ONLY')}</span>
           <Dropdown title={t('Options')} list={this.options} align="right" />
           <AboutModal
             {...this.state}
@@ -123,7 +152,28 @@ class Header extends Component {
                 isOpen: false,
               })
             }
-          />
+          /> */}
+          {/* <select id="lngChange">
+            <option value="English">English</option>
+            <option value="Chinese">Chinese</option>
+          </select> */}
+          {/* <a href="localhost:5000?lng=zh">click</a> */}
+            <a
+              target="_parent"
+              rel="noopener noreferrer"
+              href="?lng=en"
+            >
+              <div className="lng">Eng</div>
+            </a>
+            <div className="lng">/</div>
+            <a
+              target="_parent"
+              rel="noopener noreferrer"
+              href="?lng=zh"
+            >
+              <div className="lng">中文</div>
+            </a>
+            {/* <input type="button" value="中文" onClick="location.href='localhost:5000?lng=zh'" /> */}
         </div>
       </div>
     );

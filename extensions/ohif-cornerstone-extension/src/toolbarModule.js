@@ -18,6 +18,7 @@
 //  -- ACTIVE_VIEWPORT::CORNERSTONE
 // setToolActive commands should receive the button event that triggered
 // so we can do the "bind to this button" magic
+// import { commandsManager } from 'D:/MRI_DISPLAY/OHIF/OHIF_NEW _test/Viewers/src/App.js';
 
 const TOOLBAR_BUTTON_TYPES = {
   COMMAND: 'command',
@@ -72,6 +73,33 @@ const definitions = [
     commandOptions: { toolName: 'Length' },
   },
   {
+    id: 'FreehandMouse',
+    label: 'Freehand',
+    icon: 'star',
+    //
+    type: TOOLBAR_BUTTON_TYPES.SET_TOOL_ACTIVE,
+    commandName: 'setToolActive',
+    commandOptions: { toolName: 'FreehandMouse' },
+  },
+  {
+    id: 'ScaleOverlay',
+    label: 'ScaleOverlay',
+    icon: 'scale',
+    //
+    type: TOOLBAR_BUTTON_TYPES.SET_TOOL_ACTIVE,
+    commandName: 'setToolActive',
+    commandOptions: { toolName: 'ScaleOverlay' },
+  },
+  // {
+  //   id: 'Bidirectional',
+  //   label: 'Bidirectional',
+  //   icon: 'star',
+  //   //
+  //   type: TOOLBAR_BUTTON_TYPES.SET_TOOL_ACTIVE,
+  //   commandName: 'Bidirectional',
+  //   commandOptions: { toolName: 'Bidirectional'},
+  // },
+  {
     id: 'Angle',
     label: 'Angle',
     icon: 'angle-left',
@@ -98,6 +126,25 @@ const definitions = [
       behavior: 'CINE',
     },
   },
+  {
+    id: 'Colormap',
+    label: 'Colormap',
+    icon: 'colormap',
+    //
+    type: TOOLBAR_BUTTON_TYPES.BUILT_IN,
+    options: {
+      behavior:'Colormap',
+    },
+  },
+  {
+    id:'3-View',
+    label: '3-View',
+    icon: 'cube',
+
+    type: TOOLBAR_BUTTON_TYPES.COMMAND,
+    commandName:'mpr2d',
+  },
+
   {
     id: 'More',
     label: 'More',

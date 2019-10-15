@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './googleCloud.css';
 import { withTranslation } from 'react-i18next';
 import { Icon } from 'react-viewerbase';
+// import { commandsManager } from './../App.js';
 
 class LocationsList extends Component {
   state = {
@@ -34,6 +35,7 @@ class LocationsList extends Component {
         }}
         onClick={() => {
           this.props.onSelect(location);
+          // commandsManager.runCommand('mpr2d');
         }}
       >
         <td>{location.name.split('/')[3]}</td>

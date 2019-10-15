@@ -1,7 +1,7 @@
 import OHIF from 'ohif-core';
 import ViewerMain from './ViewerMain';
 import { connect } from 'react-redux';
-
+// import { commandsManager } from './../App.js';
 const {
   setViewportSpecificData,
   clearViewportSpecificData,
@@ -32,6 +32,7 @@ const mapDispatchToProps = dispatch => {
 const ConnectedViewerMain = connect(
   mapStateToProps,
   mapDispatchToProps
+  // commandsManager.runCommand('mpr2d');
 )(ViewerMain);
 
 export default ConnectedViewerMain;

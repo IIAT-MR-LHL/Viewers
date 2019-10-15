@@ -12,7 +12,7 @@ class PluginSwitch extends Component {
 
   render() {
     return (
-      <div className="PluginSwitch">
+      <div className="PluginSwitch" >
         <ExpandableToolMenu buttons={this.props.buttons} text={'View'} />
       </div>
     );

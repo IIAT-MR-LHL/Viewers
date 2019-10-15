@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './googleCloud.css';
 import { withTranslation } from 'react-i18next';
 import { Icon } from 'react-viewerbase';
-
+// import { commandsManager } from './../App.js';
 class DicomStoreList extends Component {
   state = {
     search: '',
@@ -34,6 +34,7 @@ class DicomStoreList extends Component {
         }}
         onClick={() => {
           this.props.onSelect(store);
+          // commandsManager.runCommand('mpr2d');
         }}
       >
         <td className="project">{store.name.split('/')[7]}</td>

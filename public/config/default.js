@@ -6,10 +6,10 @@ window.config = {
     dicomWeb: [
       {
         name: 'DCM4CHEE',
-        wadoUriRoot: 'https://server.dcmjs.org/dcm4chee-arc/aets/DCM4CHEE/wado',
-        qidoRoot: 'https://server.dcmjs.org/dcm4chee-arc/aets/DCM4CHEE/rs',
-        wadoRoot: 'https://server.dcmjs.org/dcm4chee-arc/aets/DCM4CHEE/rs',
-        qidoSupportsIncludeField: true,
+        wadoUriRoot: 'http://10.10.20.38:8042/wado',
+        qidoRoot: 'http://10.10.20.38:8042/dicom-web',
+        wadoRoot: 'http://10.10.20.38:8042/dicom-web',
+        qidoSupportsIncludeField: false,
         imageRendering: 'wadors',
         thumbnailRendering: 'wadors',
         requestOptions: {

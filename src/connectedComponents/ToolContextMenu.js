@@ -10,6 +10,7 @@ const toolTypes = [
   'Angle',
   'Bidirectional',
   'Length',
+  'ScaleOverlay',
   'FreehandMouse',
   'EllipticalRoi',
   'CircleRoi',

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './googleCloud.css';
 import { withTranslation } from 'react-i18next';
 import { Icon } from 'react-viewerbase';
+// import { commandsManager } from './../App.js';
 
 class ProjectsList extends Component {
   state = {
@@ -37,6 +38,7 @@ class ProjectsList extends Component {
         onClick={() => {
           this.onHighlightItem(project.projectId);
           this.props.onSelect(project);
+          // commandsManager.runCommand('mpr2d');
         }}
       >
         <td>{project.name}</td>

@@ -4,11 +4,11 @@ import setSingleLayoutData from './setSingleLayoutData.js';
 export default function setMPRLayout(displaySet) {
   return new Promise((resolve, reject) => {
     let viewports = [];
-    const rows = 1;
-    const columns = 3;
+    const rows = 2;
+    const columns = 2;
     const numViewports = rows * columns;
     const viewportSpecificData = {};
-    for (let i = 0; i < numViewports; i++) {
+    for (let i = 0; i < (numViewports-1); i++) {
       viewports.push({
         height: `${100 / rows}%`,
         width: `${100 / columns}%`,

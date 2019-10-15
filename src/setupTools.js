@@ -166,6 +166,15 @@ export default function setupTools(store) {
       mouseButtonMasks: [1],
     },
     {
+      name: 'ScaleOverlay',
+      props: {
+        configuration: {
+          getMeasurementLocationCallback: toolLabellingFlowCallback,
+        },
+      },
+      mouseButtonMasks: [1],
+    },
+    {
       name: 'Angle',
       props: {
         configuration: {

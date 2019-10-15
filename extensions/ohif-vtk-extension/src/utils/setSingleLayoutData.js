@@ -8,5 +8,6 @@ export default function setSingleLayoutData(
 
   viewports[viewportIndex] = layoutData;
 
+  
   return viewports;
 }

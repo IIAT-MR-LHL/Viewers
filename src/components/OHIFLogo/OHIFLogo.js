@@ -1,6 +1,6 @@
 import './OHIFLogo.css';
 
-import { Icon } from 'react-viewerbase';
+//import { Icon } from 'react-viewerbase';
 import React from 'react';
 
 function OHIFLogo() {
@@ -9,11 +9,12 @@ function OHIFLogo() {
       target="_blank"
       rel="noopener noreferrer"
       className="header-brand"
-      href="http://ohif.org"
+      href="http://www.hz-iiat.com"
     >
-      <Icon name="ohif-logo" className="header-logo-image" />
-      <div className="header-logo-text">Open Health Imaging Foundation</div>
-    </a>
+      {/*<Icon name="ohif-head" className="header-logo-image" />*/}
+      <i src= "" className="header-logo-image"></i>
+      <div className="header-logo-text">Ocean&apos;s Smart Viewer</div>
+</a>
   );
 }
 
